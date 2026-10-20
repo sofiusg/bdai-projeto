@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}{% if view.object %}Editar Guitarra{% else %}Adicionar
+Guitarra{% endif %}{% endblock %}
+{% block content %}
+<h2>{% if view.object %}Editar{% else %}Adicionar{% endif %} Guitarra</h2>
+<form method="post"enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">{% if view.object %}Guardar Alterações{% else %}Adicionar{% endif %}</button>
+<a href="{% url 'guitar_list' %}">Cancelar</a>
+</form>
+{% endblock %}

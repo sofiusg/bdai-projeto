@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Luthiers{% endblock %}</title>
+<meta name="viewport"content="width=device-width,initial-scale=1">
+<linkrel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<header>
+<h1><a href="{% url 'home' %}">Workshop Luthiers</a></h1>
+<nav>
+<a href="{% url 'luthier_list' %}">Luthiers</a> |
+<a href="{% url 'guitar_list' %}">Guitarras</a> |
+<a href="{% url 'luthier_create' %}">➕ Adicionar Luthier</a> |
+<a href="{% url 'guitar_create' %}">➕ Adicionar Guitarra</a>
+</nav>
+<hr>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer>
+<hr>
+<p>Mini app de exemplo — aula Django</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Luthiers{% endblock %}
+{% block content %}
+<h2>Lista de Luthiers</h2>
+<ul class="list-group">
+{% for l in luthiers %}
+<li class="list-group-item d-flex align-items-center">
+{% if l.foto %}
+<imgsrc="{{ l.foto.url }}"alt="{{ l.nome }}"width="60"height="60"class="me-2
+rounded">
+{% endif %}
+<a href="{% url 'luthier_detail' l.pk %}">{{ l.nome }}</a> — {{ l.cidade }}
+<spanstyle="margin-left:auto;">
+<a href="{% url 'luthier_edit' l.pk %}">✏</a>
+<a href="{% url 'luthier_delete' l.pk %}">🗑</a>
+</span>
+</li>
+{% empty %}
+<li class="list-group-item">Não há luthiers.</li>
+{% endfor %}
+</ul>
+{% endblock %}

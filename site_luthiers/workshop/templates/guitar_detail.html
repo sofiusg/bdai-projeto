@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ guitar.modelo }}{% endblock %}
+{% block content %}
+<h2>{{ guitar.modelo }}</h2>
+<p><strong>Ano:</strong> {{ guitar.ano }}<br>
+<strong>Luthier:</strong> <a href="{% url 'luthier_detail' guitar.luthier.pk %}">{{ guitar.luthier.nome }}</a></p>
+<p>{{ guitar.descricao }}</p>
+{% if guitar.imagem %}
+<img src="{{ guitar.imagem.url }}" width="250"class="rounded shadow mb-3">
+{% endif %}
+<p>
+<a href="{% url 'guitar_edit' guitar.pk %}">Editar Guitarra</a> 
+<a href="{% url 'guitar_delete' guitar.pk %}">Remover Guitarra</a>
+{% endblock %}

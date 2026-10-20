@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ luthier.nome }}{% endblock %}
+{% block content %}
+<h2>{{ luthier.nome }}</h2>
+<p><strong>Cidade:</strong> {{ luthier.cidade }}<br>
+<strong>Fundado:</strong> {{ luthier.fundada_em }}</p>
+{% if luthier.foto %}
+<img src="{{ luthier.foto.url }}" alt="{{ luthier.nome }}" width="250" class="rounded shadow mb-3">
+{% endif %}
+<h3>Guitarras deste luthier</h3>
+<ul>
+{% for g in guitarras %}
+<li>
+<a href="{% url 'guitar_detail' g.pk %}">{{ g.modelo }}</a> — {{ g.ano }}
+{% if g.imagem %}
+<br><img src="{{ g.imagem.url }}" width="150" class="rounded mt-2">
+{% endif %}
+</li>
+{% empty %}
+<li>Este luthier ainda não tem guitarras registadas.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'luthier_edit' luthier.pk %}">Editar Luthier</a> |
+<a href="{% url 'luthier_delete' luthier.pk %}">Remover Luthier</a>
+{% endblock %}

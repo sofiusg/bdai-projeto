@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Remover {{ object.modelo }}</h2>
+<p>Tens a certeza que queres remover esta guitarra?</p>
+<form method="post">
+{% csrf_token %}
+<button type="submit">Sim, remover</button>
+<a href="{% url 'guitar_list' %}">Cancelar</a>
+</form>
+{% endblock %}

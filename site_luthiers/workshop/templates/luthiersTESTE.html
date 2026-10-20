@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista de Luthiers</title>
+    </head>
+    <body>
+        <h1>Lista de Luthiers</h1>
+        {% if luthiers %}
+        <ul>
+        {% for luthier in luthiers %}
+        <li>
+        <h3>{{ luthier.nome }}</h3>
+        {% if luthier.foto %}
+        <img src="{{ luthier.foto.url }}" width="200">
+        {% endif %}
+        {% if luthier.cidade %}
+        <p><strong>Cidade:</strong> {{ luthier.cidade }}</p>
+        {% endif %}
+        {% if luthier.fundada_em %}
+        <p><strong>Fundada em:</strong> {{ luthier.fundada_em }}</p>
+        {% endif %}
+        </li>
+        <hr>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>Não existem luthiers registados.</p>
+        {% endif %}
+    </body>
+</html>

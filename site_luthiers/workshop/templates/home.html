@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Home - Workshop{% endblock %}
+{% block content %}
+<h2>Bem-vindo ao Workshop de Luthiers</h2>
+<p>Escolha uma opção:</p>
+<ul>
+<li><a href="{% url 'luthier_list' %}">Ver Luthiers</a></li>
+<li><a href="{% url 'guitar_list' %}">Ver Guitarras</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Guitarras{% endblock %}
+{% block content %}
+<h2>Lista de Guitarras</h2>
+<ul class="list-group">
+{% for g in guitarras %}
+<li class="list-group-item d-flex align-items-center">
+<a href="{% url 'guitar_detail' g.pk %}">{{ g.modelo }}</a> — {{ g.ano }} —
+por
+<a href="{% url 'luthier_detail' g.luthier.pk %}">{{ g.luthier.nome }}</a>
+{% if g.imagem %}
+<br><imgsrc="{{ g.imagem.url }}"width="150"class="rounded mt-2">
+{% endif %}
+<span style="margin-left:auto;">
+<a href="{% url 'guitar_edit' g.pk %}">✏</a>
+<a href="{% url 'guitar_delete' g.pk %}">🗑</a>
+</span>
+</li>
+{% empty %}
+<li class="list-group-item">Não há guitarras.</li>
+{% endfor %}
+</ul>
+{% endblock %}
