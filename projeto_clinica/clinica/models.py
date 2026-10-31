@@ -25,6 +25,8 @@ class Medico(models.Model):
 
     class Meta:
         ordering = ['nome']
+        verbose_name = 'médico'
+        verbose_name_plural = 'médicos'
 
     def __str__(self):
         return self.nome

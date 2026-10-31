@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Relatório{% endblock %}
+{% block content %}
+<h2>Relatório de {{ relatorio.exame.tipo_exame }}</h2>
+<p>
+    <strong>Data do relatório:</strong> {{ relatorio.data|date:"d/m/Y" }}<br>
+    <strong>Paciente:</strong>
+    <a href="{% url 'paciente_detail' relatorio.exame.paciente.pk %}">{{ relatorio.exame.paciente.nome }}</a><br>
+    <strong>Exame:</strong> {{ relatorio.exame.tipo_exame }} de {{ relatorio.exame.data|date:"d/m/Y" }}<br>
+    <strong>Médico:</strong>
+    <a href="{% url 'medico_detail' relatorio.medico.pk %}">{{ relatorio.medico.nome }}</a>
+    ({{ relatorio.medico.especialidade.nome }})
+</p>
+
+{% if relatorio.exame.imagem %}
+    <img src="{{ relatorio.exame.imagem.url }}" width="300">
+{% endif %}
+
+<h3>Descrição</h3>
+<p>{{ relatorio.texto|linebreaksbr|default:"—" }}</p>
+
+<h3>Conclusão</h3>
+<p><strong>{{ relatorio.conclusao }}</strong></p>
+
+<a href="{% url 'relatorio_edit' relatorio.pk %}">Editar</a> |
+<a href="{% url 'relatorio_delete' relatorio.pk %}">Remover</a> |
+<a href="{% url 'relatorio_list' %}">Voltar</a>
+{% endblock %}

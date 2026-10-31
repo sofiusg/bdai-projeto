@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ medico.nome }}{% endblock %}
+{% block content %}
+<h2>{{ medico.nome }}</h2>
+{% if medico.foto %}<img src="{{ medico.foto.url }}" width="200">{% endif %}
+<p>
+    <strong>Especialidade:</strong>
+    <a href="{% url 'especialidade_detail' medico.especialidade.pk %}">{{ medico.especialidade.nome }}</a><br>
+    <strong>Nº cédula:</strong> {{ medico.num_cedula }}<br>
+    <strong>Email:</strong> {{ medico.email|default:"—" }}<br>
+    <strong>Telefone:</strong> {{ medico.telefone|default:"—" }}
+</p>
+
+<h3>Relatórios assinados</h3>
+<ul>
+{% for r in medico.relatorios.all %}
+    <li>{{ r.data }} — {{ r.exame }}</li>
+{% empty %}
+    <li>Ainda não assinou relatórios.</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'medico_edit' medico.pk %}">Editar</a> |
+<a href="{% url 'medico_delete' medico.pk %}">Remover</a> |
+<a href="{% url 'medico_list' %}">Voltar</a>
+{% endblock %}

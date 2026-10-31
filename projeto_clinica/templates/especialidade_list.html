@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Especialidades{% endblock %}
+{% block content %}
+<h2>Especialidades</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Pesquisar por nome">
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q %}<a href="{% url 'especialidade_list' %}">Limpar</a>{% endif %}
+</form>
+
+<ul>
+{% for e in especialidades %}
+    <li>
+        <a href="{% url 'especialidade_detail' e.pk %}">{{ e.nome }}</a>
+        ({{ e.medicos.count }} médicos)
+        <a href="{% url 'especialidade_edit' e.pk %}">✏</a>
+        <a href="{% url 'especialidade_delete' e.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há especialidades.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'especialidade_create' %}">➕ Adicionar especialidade</a>
+{% endblock %}

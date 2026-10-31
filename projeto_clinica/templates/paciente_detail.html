@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ paciente.nome }}{% endblock %}
+{% block content %}
+<h2>{{ paciente.nome }}</h2>
+<p>
+    <strong>Nº de utente:</strong> {{ paciente.num_utente }}<br>
+    <strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y"|default:"—" }}<br>
+    <strong>Sexo:</strong> {{ paciente.get_sexo_display|default:"—" }}<br>
+    <strong>Telefone:</strong> {{ paciente.telefone|default:"—" }}<br>
+    <strong>Morada:</strong> {{ paciente.morada|default:"—" }}
+</p>
+
+<h3>Exames</h3>
+<ul>
+{% for e in paciente.exames.all %}
+    <li>
+        {{ e.data|date:"d/m/Y" }} — {{ e.tipo_exame }} ({{ e.get_estado_display }})
+        {% if e.relatorio %}
+            — <a href="{% url 'relatorio_detail' e.relatorio.pk %}">ver relatório</a>
+        {% endif %}
+    </li>
+{% empty %}
+    <li>Este paciente ainda não tem exames.</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'paciente_edit' paciente.pk %}">Editar</a> |
+<a href="{% url 'paciente_delete' paciente.pk %}">Remover</a> |
+<a href="{% url 'paciente_list' %}">Voltar</a>
+{% endblock %}

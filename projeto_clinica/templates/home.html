@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Início - Clínica{% endblock %}
+{% block content %}
+<h2>Bem-vindo à Clínica de Imagiologia</h2>
+<table border="1" cellpadding="6">
+    <tr><th>Entidade</th><th>Nº de registos</th></tr>
+    {% for nome, total, url_name in contagens %}
+    <tr>
+        <td>
+            {% if url_name %}
+                <a href="{% url url_name %}">{{ nome }}</a>
+            {% else %}
+                {{ nome }}
+            {% endif %}
+        </td>
+        <td>{{ total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

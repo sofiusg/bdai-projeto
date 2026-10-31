@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Médicos{% endblock %}
+{% block content %}
+<h2>Médicos</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Nome ou cédula">
+    <select name="especialidade">
+        <option value="">Todas as especialidades</option>
+        {% for e in especialidades %}
+        <option value="{{ e.pk }}" {% if request.GET.especialidade == e.pk|stringformat:"s" %}selected{% endif %}>
+            {{ e.nome }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q or request.GET.especialidade %}
+        <a href="{% url 'medico_list' %}">Limpar</a>
+    {% endif %}
+</form>
+
+<ul>
+{% for m in medicos %}
+    <li>
+        {% if m.foto %}<img src="{{ m.foto.url }}" width="50" height="50">{% endif %}
+        <a href="{% url 'medico_detail' m.pk %}">{{ m.nome }}</a>
+        — {{ m.especialidade.nome }} (cédula {{ m.num_cedula }})
+        <a href="{% url 'medico_edit' m.pk %}">✏</a>
+        <a href="{% url 'medico_delete' m.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há médicos.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'medico_create' %}">➕ Adicionar médico</a>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Clínica de Imagiologia{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<header>
+    <h1><a href="{% url 'home' %}">Clínica de Imagiologia</a></h1>
+    <nav>
+        <a href="{% url 'home' %}">Início</a> |
+        <a href="{% url 'especialidade_list' %}">Especialidades</a> |
+        <a href="{% url 'medico_list' %}">Médicos</a> |
+        <a href="{% url 'paciente_list' %}">Pacientes</a> |
+        <a href="{% url 'relatorio_list' %}">Relatórios</a> |
+        {# Pessoa B: links de Tipos de exame, Equipamentos e Exames aqui #}
+        <a href="/admin/">Admin</a>
+    </nav>
+    <hr>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+<footer>
+    <hr>
+    <p>Projeto de Bases de Dados — Clínica de Imagiologia</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Relatórios{% endblock %}
+{% block content %}
+<h2>Relatórios</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Paciente ou conclusão">
+    <select name="medico">
+        <option value="">Todos os médicos</option>
+        {% for m in medicos %}
+        <option value="{{ m.pk }}" {% if request.GET.medico == m.pk|stringformat:"s" %}selected{% endif %}>
+            {{ m.nome }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q or request.GET.medico %}
+        <a href="{% url 'relatorio_list' %}">Limpar</a>
+    {% endif %}
+</form>
+
+<ul>
+{% for r in relatorios %}
+    <li>
+        <a href="{% url 'relatorio_detail' r.pk %}">{{ r.data|date:"d/m/Y" }} — {{ r.exame.tipo_exame }}</a>
+        — paciente: {{ r.exame.paciente.nome }}
+        — médico: {{ r.medico.nome }}
+        <a href="{% url 'relatorio_edit' r.pk %}">✏</a>
+        <a href="{% url 'relatorio_delete' r.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há relatórios.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'relatorio_create' %}">➕ Adicionar relatório</a>
+{% endblock %}

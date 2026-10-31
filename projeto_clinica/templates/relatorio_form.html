@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Editar{% else %}Adicionar{% endif %} relatório{% endblock %}
+{% block content %}
+<h2>{% if object %}Editar{% else %}Adicionar{% endif %} relatório</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+    <a href="{% url 'relatorio_list' %}">Cancelar</a>
+</form>
+{% endblock %}
