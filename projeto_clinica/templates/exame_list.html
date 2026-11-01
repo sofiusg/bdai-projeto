@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Exames{% endblock %}
+{% block content %}
+<h2>Exames</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Paciente ou nº de utente">
+    <select name="estado">
+        <option value="">Todos os estados</option>
+        {% for valor, texto in estados %}
+        <option value="{{ valor }}" {% if request.GET.estado == valor %}selected{% endif %}>{{ texto }}</option>
+        {% endfor %}
+    </select>
+    <select name="tipo">
+        <option value="">Todos os tipos</option>
+        {% for t in tipos %}
+        <option value="{{ t.pk }}" {% if request.GET.tipo == t.pk|stringformat:"s" %}selected{% endif %}>
+            {{ t.nome }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q or request.GET.estado or request.GET.tipo %}
+        <a href="{% url 'exame_list' %}">Limpar</a>
+    {% endif %}
+</form>
+
+<ul>
+{% for e in exames %}
+    <li>
+        <a href="{% url 'exame_detail' e.pk %}">{{ e.data|date:"d/m/Y" }} — {{ e.tipo_exame.nome }}</a>
+        — {{ e.paciente.nome }} — {{ e.equipamento.nome }}
+        ({{ e.get_estado_display }}{% if e.estado == 'realizado' %}{% if e.relatorio %}, com relatório{% else %}, <strong>sem relatório</strong>{% endif %}{% endif %})
+        <a href="{% url 'exame_edit' e.pk %}">✏</a>
+        <a href="{% url 'exame_delete' e.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há exames.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'exame_create' %}">➕ Adicionar exame</a>
+{% endblock %}

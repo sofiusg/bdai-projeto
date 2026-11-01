@@ -21,7 +21,7 @@ class Medico(models.Model):
     telefone = models.CharField(max_length=20, blank=True)
     foto = models.ImageField(upload_to='medicos/', blank=True, null=True)
     especialidade = models.ForeignKey(
-        Especialidade, on_delete=models.CASCADE, related_name='medicos')
+        Especialidade, on_delete=models.PROTECT, related_name='medicos')
 
     class Meta:
         ordering = ['nome']
@@ -96,11 +96,11 @@ class Exame(models.Model):
     observacoes = models.TextField(blank=True)
     imagem = models.ImageField(upload_to='exames/', blank=True, null=True)
     paciente = models.ForeignKey(
-        Paciente, on_delete=models.CASCADE, related_name='exames')
+        Paciente, on_delete=models.PROTECT, related_name='exames')
     tipo_exame = models.ForeignKey(
-        TipoExame, on_delete=models.CASCADE, related_name='exames')
+        TipoExame, on_delete=models.PROTECT, related_name='exames')
     equipamento = models.ForeignKey(
-        Equipamento, on_delete=models.CASCADE, related_name='exames')
+        Equipamento, on_delete=models.PROTECT, related_name='exames')
 
     class Meta:
         ordering = ['-data']
@@ -116,9 +116,9 @@ class Relatorio(models.Model):
     texto = models.TextField(blank=True)
     conclusao = models.CharField(max_length=500)
     medico = models.ForeignKey(
-        Medico, on_delete=models.CASCADE, related_name='relatorios')
+        Medico, on_delete=models.PROTECT, related_name='relatorios')
     exame = models.OneToOneField(
-        Exame, on_delete=models.CASCADE, related_name='relatorio')
+        Exame, on_delete=models.PROTECT, related_name='relatorio')
 
     class Meta:
         ordering = ['-data']

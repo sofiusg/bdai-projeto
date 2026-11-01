@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Exame{% endblock %}
+{% block content %}
+<h2>{{ exame.tipo_exame.nome }} — {{ exame.data|date:"d/m/Y" }}</h2>
+<p>
+    <strong>Paciente:</strong>
+    <a href="{% url 'paciente_detail' exame.paciente.pk %}">{{ exame.paciente.nome }}</a>
+    (utente {{ exame.paciente.num_utente }})<br>
+    <strong>Tipo de exame:</strong>
+    <a href="{% url 'tipoexame_detail' exame.tipo_exame.pk %}">{{ exame.tipo_exame.nome }}</a><br>
+    <strong>Equipamento:</strong>
+    <a href="{% url 'equipamento_detail' exame.equipamento.pk %}">{{ exame.equipamento }}</a><br>
+    <strong>Estado:</strong> {{ exame.get_estado_display }}
+</p>
+<p><strong>Observações:</strong> {{ exame.observacoes|linebreaksbr|default:"—" }}</p>
+
+{% if exame.imagem %}
+    <img src="{{ exame.imagem.url }}" width="300">
+{% endif %}
+
+<h3>Relatório</h3>
+{% if exame.relatorio %}
+    <p>
+        <a href="{% url 'relatorio_detail' exame.relatorio.pk %}">Relatório de {{ exame.relatorio.data|date:"d/m/Y" }}</a>
+        — {{ exame.relatorio.medico.nome }}<br>
+        <strong>Conclusão:</strong> {{ exame.relatorio.conclusao }}
+    </p>
+{% elif exame.estado == 'realizado' %}
+    <p>Este exame ainda não tem relatório.
+    <a href="{% url 'relatorio_create' %}?exame={{ exame.pk }}">✍ Escrever relatório</a></p>
+{% else %}
+    <p>O relatório só pode ser escrito depois de o exame ser realizado.</p>
+{% endif %}
+
+<a href="{% url 'exame_edit' exame.pk %}">Editar</a> |
+<a href="{% url 'exame_delete' exame.pk %}">Remover</a> |
+<a href="{% url 'exame_list' %}">Voltar</a>
+{% endblock %}

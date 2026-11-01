@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ tipo.nome }}{% endblock %}
+{% block content %}
+<h2>{{ tipo.nome }}</h2>
+<p>{{ tipo.descricao }}</p>
+<p>
+    <strong>Duração:</strong> {% if tipo.duracao_min %}{{ tipo.duracao_min }} min{% else %}—{% endif %}<br>
+    <strong>Preço:</strong> {% if tipo.preco %}{{ tipo.preco }} €{% else %}—{% endif %}
+</p>
+
+<h3>Equipamentos que fazem este exame</h3>
+<ul>
+{% for eq in tipo.equipamentos.all %}
+    <li><a href="{% url 'equipamento_detail' eq.pk %}">{{ eq }}</a></li>
+{% empty %}
+    <li>Nenhum equipamento associado.</li>
+{% endfor %}
+</ul>
+
+<h3>Exames deste tipo</h3>
+<ul>
+{% for e in tipo.exames.all %}
+    <li>
+        <a href="{% url 'exame_detail' e.pk %}">{{ e.data|date:"d/m/Y" }} — {{ e.paciente.nome }}</a>
+        ({{ e.get_estado_display }})
+    </li>
+{% empty %}
+    <li>Ainda não há exames deste tipo.</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'tipoexame_edit' tipo.pk %}">Editar</a> |
+<a href="{% url 'tipoexame_delete' tipo.pk %}">Remover</a> |
+<a href="{% url 'tipoexame_list' %}">Voltar</a>
+{% endblock %}

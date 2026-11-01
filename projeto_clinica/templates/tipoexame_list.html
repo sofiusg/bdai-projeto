@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Tipos de exame{% endblock %}
+{% block content %}
+<h2>Tipos de exame</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Nome ou descrição">
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q %}<a href="{% url 'tipoexame_list' %}">Limpar</a>{% endif %}
+</form>
+
+<ul>
+{% for t in tipos %}
+    <li>
+        <a href="{% url 'tipoexame_detail' t.pk %}">{{ t.nome }}</a>
+        {% if t.duracao_min %}— {{ t.duracao_min }} min{% endif %}
+        {% if t.preco %}— {{ t.preco }} €{% endif %}
+        ({{ t.exames.count }} exame{{ t.exames.count|pluralize }})
+        <a href="{% url 'tipoexame_edit' t.pk %}">✏</a>
+        <a href="{% url 'tipoexame_delete' t.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há tipos de exame.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'tipoexame_create' %}">➕ Adicionar tipo de exame</a>
+{% endblock %}

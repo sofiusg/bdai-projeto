@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ equipamento.nome }}{% endblock %}
+{% block content %}
+<h2>{{ equipamento.nome }}</h2>
+{% if equipamento.foto %}<img src="{{ equipamento.foto.url }}" width="250">{% endif %}
+<p>
+    <strong>Fabricante:</strong> {{ equipamento.fabricante|default:"—" }}<br>
+    <strong>Modelo:</strong> {{ equipamento.modelo|default:"—" }}<br>
+    <strong>Nº de série:</strong> {{ equipamento.num_serie }}<br>
+    <strong>Data de aquisição:</strong> {{ equipamento.data_aquisicao|date:"d/m/Y"|default:"—" }}<br>
+    <strong>Sala:</strong> {{ equipamento.sala|default:"—" }}
+</p>
+
+<h3>Tipos de exame que faz</h3>
+<ul>
+{% for t in equipamento.tipos_exame.all %}
+    <li><a href="{% url 'tipoexame_detail' t.pk %}">{{ t.nome }}</a></li>
+{% empty %}
+    <li>Nenhum tipo de exame associado.</li>
+{% endfor %}
+</ul>
+
+<h3>Exames realizados neste equipamento</h3>
+<ul>
+{% for e in equipamento.exames.all %}
+    <li>
+        <a href="{% url 'exame_detail' e.pk %}">{{ e.data|date:"d/m/Y" }} — {{ e.tipo_exame }} — {{ e.paciente.nome }}</a>
+        ({{ e.get_estado_display }})
+    </li>
+{% empty %}
+    <li>Ainda não há exames neste equipamento.</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'equipamento_edit' equipamento.pk %}">Editar</a> |
+<a href="{% url 'equipamento_delete' equipamento.pk %}">Remover</a> |
+<a href="{% url 'equipamento_list' %}">Voltar</a>
+{% endblock %}

@@ -2,10 +2,24 @@
 {% block title %}Remover{% endblock %}
 {% block content %}
 <h2>Remover "{{ object }}"</h2>
-<p>Tens a certeza? Esta ação não pode ser desfeita.</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Sim, remover</button>
-    <a href="{{ view.success_url }}">Cancelar</a>
-</form>
+
+{% if erro %}
+    <p><strong>Não é possível remover este registo</strong>, porque ainda tem
+    {{ total }} registo{{ total|pluralize }} ligado{{ total|pluralize }}:</p>
+    <ul>
+    {% for tipo, registo in relacionados %}
+        <li>{{ tipo|capfirst }}: {{ registo }}</li>
+    {% endfor %}
+    {% if total > 10 %}<li>…</li>{% endif %}
+    </ul>
+    <p>Remova ou altere primeiro esses registos.</p>
+    <a href="{{ view.success_url }}">Voltar</a>
+{% else %}
+    <p>Tens a certeza? Esta ação não pode ser desfeita.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sim, remover</button>
+        <a href="{{ view.success_url }}">Cancelar</a>
+    </form>
+{% endif %}
 {% endblock %}

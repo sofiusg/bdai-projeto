@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Equipamentos{% endblock %}
+{% block content %}
+<h2>Equipamentos</h2>
+
+<form method="get">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Nome, fabricante, modelo ou nº série">
+    <select name="tipo">
+        <option value="">Todos os tipos de exame</option>
+        {% for t in tipos %}
+        <option value="{{ t.pk }}" {% if request.GET.tipo == t.pk|stringformat:"s" %}selected{% endif %}>
+            {{ t.nome }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Pesquisar</button>
+    {% if request.GET.q or request.GET.tipo %}
+        <a href="{% url 'equipamento_list' %}">Limpar</a>
+    {% endif %}
+</form>
+
+<ul>
+{% for eq in equipamentos %}
+    <li>
+        {% if eq.foto %}<img src="{{ eq.foto.url }}" width="50" height="50">{% endif %}
+        <a href="{% url 'equipamento_detail' eq.pk %}">{{ eq.nome }}</a>
+        — {{ eq.fabricante }} {{ eq.modelo }}{% if eq.sala %} — {{ eq.sala }}{% endif %}
+        <br><small>Faz: {% for t in eq.tipos_exame.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</small>
+        <a href="{% url 'equipamento_edit' eq.pk %}">✏</a>
+        <a href="{% url 'equipamento_delete' eq.pk %}">🗑</a>
+    </li>
+{% empty %}
+    <li>Não há equipamentos.</li>
+{% endfor %}
+</ul>
+<a href="{% url 'equipamento_create' %}">➕ Adicionar equipamento</a>
+{% endblock %}

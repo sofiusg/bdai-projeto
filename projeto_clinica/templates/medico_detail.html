@@ -14,7 +14,7 @@
 <h3>Relatórios assinados</h3>
 <ul>
 {% for r in medico.relatorios.all %}
-    <li>{{ r.data }} — {{ r.exame }}</li>
+        <li><a href="{% url 'relatorio_detail' r.pk %}">{{ r.data|date:"d/m/Y" }} — {{ r.exame }}</a></li>
 {% empty %}
     <li>Ainda não assinou relatórios.</li>
 {% endfor %}

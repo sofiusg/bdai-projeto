@@ -6,7 +6,8 @@
     <strong>Data do relatório:</strong> {{ relatorio.data|date:"d/m/Y" }}<br>
     <strong>Paciente:</strong>
     <a href="{% url 'paciente_detail' relatorio.exame.paciente.pk %}">{{ relatorio.exame.paciente.nome }}</a><br>
-    <strong>Exame:</strong> {{ relatorio.exame.tipo_exame }} de {{ relatorio.exame.data|date:"d/m/Y" }}<br>
+    <strong>Exame:</strong>
+    <a href="{% url 'exame_detail' relatorio.exame.pk %}">{{ relatorio.exame.tipo_exame }} de {{ relatorio.exame.data|date:"d/m/Y" }}</a><br>
     <strong>Médico:</strong>
     <a href="{% url 'medico_detail' relatorio.medico.pk %}">{{ relatorio.medico.nome }}</a>
     ({{ relatorio.medico.especialidade.nome }})

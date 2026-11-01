@@ -14,7 +14,8 @@
 <ul>
 {% for e in paciente.exames.all %}
     <li>
-        {{ e.data|date:"d/m/Y" }} — {{ e.tipo_exame }} ({{ e.get_estado_display }})
+        <a href="{% url 'exame_detail' e.pk %}">{{ e.data|date:"d/m/Y" }} — {{ e.tipo_exame }}</a>
+        ({{ e.get_estado_display }})
         {% if e.relatorio %}
             — <a href="{% url 'relatorio_detail' e.relatorio.pk %}">ver relatório</a>
         {% endif %}
@@ -23,7 +24,7 @@
     <li>Este paciente ainda não tem exames.</li>
 {% endfor %}
 </ul>
-
+<p><a href="{% url 'exame_create' %}?paciente={{ paciente.pk }}">➕ Marcar exame para este paciente</a></p>
 <a href="{% url 'paciente_edit' paciente.pk %}">Editar</a> |
 <a href="{% url 'paciente_delete' paciente.pk %}">Remover</a> |
 <a href="{% url 'paciente_list' %}">Voltar</a>

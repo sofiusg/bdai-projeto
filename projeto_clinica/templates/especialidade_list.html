@@ -13,7 +13,7 @@
 {% for e in especialidades %}
     <li>
         <a href="{% url 'especialidade_detail' e.pk %}">{{ e.nome }}</a>
-        ({{ e.medicos.count }} médicos)
+        ({{ e.medicos.count }} médico{{ e.medicos.count|pluralize }})
         <a href="{% url 'especialidade_edit' e.pk %}">✏</a>
         <a href="{% url 'especialidade_delete' e.pk %}">🗑</a>
     </li>
