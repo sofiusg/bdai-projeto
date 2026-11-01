@@ -26,6 +26,20 @@ class HomeView(TemplateView):
         ]
         return context
 
+# ===================== Apagar com proteção =====================
+
+class ProtegidoDeleteView(DeleteView):
+    template_name = "confirm_delete.html"
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except ProtectedError as e:
+            # pares (tipo de registo, registo), ex.: ("médico", "Ana Carvalho")
+            relacionados = [(obj._meta.verbose_name, obj) for obj in e.protected_objects]
+            context = self.get_context_data(
+                erro=True, relacionados=relacionados[:10], total=len(relacionados))
+            return self.render_to_response(context)
 
 # ===================== Especialidade =====================
 
